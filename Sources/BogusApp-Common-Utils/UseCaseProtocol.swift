@@ -12,10 +12,9 @@ import Foundation
 
 public protocol UseCase {
     /// Used for initial operations over injected objects and startup flows
-    @discardableResult
-    func start() -> Cancellable?
+    func start()
 }
 
 public extension UseCase {
-    func start() -> Cancellable? { nil }
+    func start() { }
 }
