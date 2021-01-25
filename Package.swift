@@ -12,8 +12,8 @@ let package = Package(
             targets: ["BogusApp-Common-Utils"]),
     ],
     dependencies: [
-        // Dependencies declare other packages that this package depends on.
-        // .package(url: /* package url */, from: "1.0.0"),
+        .package(url: "https://github.com/Realm/SwiftLint", from: "0.28.1"),
+        .package(url: "https://github.com/orta/Komondor", from: "1.0.0")
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -26,3 +26,18 @@ let package = Package(
             dependencies: ["BogusApp-Common-Utils"]),
     ]
 )
+
+#if canImport(PackageConfig)
+    import PackageConfig
+
+    let config = PackageConfiguration([
+        "komondor": [
+            "pre-push": "swift test",
+            "pre-commit": [
+                "swift test",
+                "swift run swiftlint autocorrect --path Sources/",
+                "git add .",
+            ],
+        ],
+    ]).write()
+#endif
